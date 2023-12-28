@@ -1,0 +1,46 @@
+TodoBlazorApp - https://www.claudiobernasconi.ch/2021/04/29/introduction-to-blazor-form-handling-and-input-validation/
+
+Encryption and Decription using Blazor App - Biswa Ranjan - https://www.youtube.com/watch?v=Y_Ch4BAmACU&t=225s&ab_channel=BiswaRanjan
+
+https://www.youtube.com/watch?v=YhAxMpOtVQU&ab_channel=ISeeSharp - todo simple version
+
+Duplichecker
+https://devtoolcafe.com/tools/jwtdecoder
+https://www.md5hashgenerator.com/
+
+
+FrankLiu - udemy
+Spanish Blazor - udemy
+Using EditForm | Part - 29 | Using ASP.Net Blazor for Absolute Beginners
+New page blazor 
+https://www.claudiobernasconi.ch/2021/04/29/introduction-to-blazor-form-handling-and-input-validation/
+https://www.ezzylearning.net/
+https://blazorlibrary.com/components/blazor-form
+
+
+tools 
+https://www.miraclesalad.com/webtools/md5.php
+
+https://github.com/mattwright42/Password-Checker/blob/master/PasswordChecker/PasswordChecker.cs
+
+https://stackoverflow.com/questions/16945376/regex-for-complex-password-validation
+
+public static string CreateMD5(string input)
+{
+    // Use input string to calculate MD5 hash
+    using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+    {
+        byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+        byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+        return Convert.ToHexString(hashBytes); // .NET 5 +
+
+        // Convert the byte array to hexadecimal string prior to .NET 5
+        // StringBuilder sb = new System.Text.StringBuilder();
+        // for (int i = 0; i < hashBytes.Length; i++)
+        // {
+        //     sb.Append(hashBytes[i].ToString("X2"));
+        // }
+        // return sb.ToString();
+    }
+}
