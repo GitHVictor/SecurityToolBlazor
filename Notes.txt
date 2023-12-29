@@ -4,19 +4,30 @@ Encryption and Decription using Blazor App - Biswa Ranjan - https://www.youtube.
 
 https://www.youtube.com/watch?v=YhAxMpOtVQU&ab_channel=ISeeSharp - todo simple version
 
+https://www.thatsoftwaredude.com/content/6218/how-to-encrypt-passwords-using-sha-256-in-c-and-net
+
+https://www.ryadel.com/en/c-sharp-random-password-generator-asp-net-core-mvc/
+
+https://stackoverflow.com/questions/28480167/asp-net-identity-generate-random-password
+
 Duplichecker
 https://devtoolcafe.com/tools/jwtdecoder
 https://www.md5hashgenerator.com/
+https://1password.com/password-generator
 
 
 FrankLiu - udemy
 Spanish Blazor - udemy
-Using EditForm | Part - 29 | Using ASP.Net Blazor for Absolute Beginners
+Using EditForm | Part - 29 | Using ASP.Net Blazor for Absolute Beginners - ***
 New page blazor 
 https://www.claudiobernasconi.ch/2021/04/29/introduction-to-blazor-form-handling-and-input-validation/
 https://www.ezzylearning.net/
 https://blazorlibrary.com/components/blazor-form
 
+crud
+api
+db
+authentication
 
 tools 
 https://www.miraclesalad.com/webtools/md5.php
