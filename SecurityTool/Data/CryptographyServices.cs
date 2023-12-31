@@ -4,32 +4,34 @@ using System.Text;
 using System.Collections.Generic;
 using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.Intrinsics.Arm;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.Identity;
 
 namespace SecurityTool.Data
 {
     public class CryptographyServices
     {
-        static readonly string mySecretKey = "CybersecurityBootCamp"; //key used to encrypt data
+        static readonly string secretKey = "CybersecurityBootCamp"; //key used to encrypt data
         
-        public string TDESEncryption(string inputValue)
+        public string TDESEncryption(string TextToEncrypt)
         {
-            byte[] keyArray;
-            byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(inputValue);
+            byte[] myEncryptedArray = UTF8Encoding.UTF8.GetBytes(TextToEncrypt);
 
             //Generate HashKey
             MD5 hashMD5 = MD5.Create();
-            keyArray = hashMD5.ComputeHash(UTF8Encoding.UTF8.GetBytes(mySecretKey));
+            byte[] securityKeyArray = hashMD5.ComputeHash(UTF8Encoding.UTF8.GetBytes(secretKey));
             hashMD5.Clear();
 
             //3dCryptoServices
             TripleDES tDES = TripleDES.Create();
-            tDES.Key = keyArray;
-            tDES.Mode = CipherMode.ECB;
+            tDES.Key = securityKeyArray;
+            tDES.Mode = CipherMode.CBC;
             tDES.Padding = PaddingMode.PKCS7;
-
+            
             ICryptoTransform cTransform = tDES.CreateEncryptor();
-            byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+            byte[] resultArray = cTransform.TransformFinalBlock(myEncryptedArray, 0, myEncryptedArray.Length);
             tDES.Clear();
+
             return Convert.ToBase64String(resultArray, 0, resultArray.Length);
         }
         public string MD5HashEncryption(string inputValue)
@@ -86,33 +88,70 @@ namespace SecurityTool.Data
             }
 
             if (letters < 2) {
-                return new PasswordResponse(false, "Password should not be less than 2 characters");
+                return new PasswordResponse(false, "Your password should not have less than 2 characters");
             }
             else if (digits < 2) {
-                return new PasswordResponse(false, "Password should not be less than 2 digits");
+                return new PasswordResponse(false, "Your password should not have less than 2 digits");
             }
             else if (uppers < 1) {
-                return new PasswordResponse(false, "Password should contain at least one upper case letter");
+                return new PasswordResponse(false, "Your password should contain at least one upper case letter");
             }
             else if (lowers < 1) {
-                return new PasswordResponse(false, "Password should contain at least one lower case letter");
+                return new PasswordResponse(false, "Your password should contain at least one lower case letter");
             }
             else if (symbols < 1) {
-                return new PasswordResponse(false, "Password should contain at least one special character");
+                return new PasswordResponse(false, "Your password should contain at least one special character");
             }
-            else  return new PasswordResponse(true, "Your password is very strong");
+            else  return new PasswordResponse(true, "Your password is VERY strong");
         }
 
-        public string GenerateNewStrongPassword(string inputValue)
+        public string GenerateNewStrongPassword(PasswordOptions? opts = null)
         {
-            byte[] keyArray;
+            if (opts == null) opts = new PasswordOptions()
+            {
+                RequiredLength = 8,
+                RequiredUniqueChars = 4,
+                RequireDigit = true,
+                RequireLowercase = true,
+                RequireNonAlphanumeric = true,
+                RequireUppercase = true
+            };
 
-            //Generate HashKey
-            MD5 hashMD5 = MD5.Create();
-            keyArray = hashMD5.ComputeHash(UTF8Encoding.UTF8.GetBytes(inputValue));
-            hashMD5.Clear();
+            string[] randomChars = new[] {
+            "ABCDEFGHJKLMNOPQRSTUVWXYZ",    // uppercase 
+            "abcdefghijkmnopqrstuvwxyz",    // lowercase
+            "0123456789",                   // digits
+            "!@$?_-"                        // non-alphanumeric
+        };
 
-            return Convert.ToHexString(keyArray);
+            Random rand = new Random(Environment.TickCount);
+            List<char> chars = new List<char>();
+
+            if (opts.RequireUppercase)
+                chars.Insert(rand.Next(0, chars.Count),
+                    randomChars[0][rand.Next(0, randomChars[0].Length)]);
+
+            if (opts.RequireLowercase)
+                chars.Insert(rand.Next(0, chars.Count),
+                    randomChars[1][rand.Next(0, randomChars[1].Length)]);
+
+            if (opts.RequireDigit)
+                chars.Insert(rand.Next(0, chars.Count),
+                    randomChars[2][rand.Next(0, randomChars[3].Length)]);
+
+            if (opts.RequireNonAlphanumeric)
+                chars.Insert(rand.Next(0, chars.Count),
+                    randomChars[3][rand.Next(0, randomChars[3].Length)]);
+
+            for (int i = chars.Count; i < opts.RequiredLength
+                || chars.Distinct().Count() < opts.RequiredUniqueChars; i++)
+            {
+                string rcs = randomChars[rand.Next(0, randomChars.Length)];
+                chars.Insert(rand.Next(0, chars.Count),
+                    rcs[rand.Next(0, rcs.Length)]);
+            }
+
+            return new string(chars.ToArray());
         }
     }
 }

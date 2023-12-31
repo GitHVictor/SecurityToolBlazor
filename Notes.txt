@@ -10,10 +10,13 @@ https://www.ryadel.com/en/c-sharp-random-password-generator-asp-net-core-mvc/
 
 https://stackoverflow.com/questions/28480167/asp-net-identity-generate-random-password
 
+https://www.codeguru.com/csharp/triple-des-encryption-and-decryption-in-c/
+
 Duplichecker
 https://devtoolcafe.com/tools/jwtdecoder
 https://www.md5hashgenerator.com/
 https://1password.com/password-generator
+http://www.sha1-online.com/
 
 
 FrankLiu - udemy
